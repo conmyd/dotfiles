@@ -1,4 +1,15 @@
+
+# ls Aliases
 alias la='ls -la'
 alias l='ls'
+
+# Coresystems Aliases
+alias mdm='cd $CORE_MDM'
+alias mdm-front='cd $CORE_MDM/frontend'
+alias mdm-back='cd $CORE_MDM/backend'
+alias portal='cd $CORE_ROOT/portal'
+
+# Git Aliases
+alias graph='git log --oneline --decorate --graph'
 
 echo "(OK) .aliases"

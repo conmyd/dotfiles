@@ -2,7 +2,7 @@
 
 # Windows specific configuration
 if [[ "$OSTYPE" = 'msys' ]]; then
-	if [[ ! -f ./win_settings ]]; then
+	if [[ ! -f ./win_settings.sh ]]; then
 		echo "No Settings file found for $OSTYPE"
 		exit 1
 	fi
@@ -29,22 +29,33 @@ if [[ "$OSTYPE" = 'msys' ]]; then
 		if [[ -d usr/bin ]]; then
 			if [[ ! -d $DEV_BIN ]]; then
 				mkdir -p $DEV_BIN
-			fi
+            fi
 			mv usr/bin/* $DEV_BIN
 			if [[ $? -eq 0 ]]; then
 				echo "SUCCESS: Moved new packages to package bin"
-				export PATH=$DEV_BIN:$PATH
 			else
-				echo "Failed to move new packages to the package bin"
+				echo "FAILED to move new packages to the package bin"
 			fi
 		fi
+        cd ~-
 	fi
 else
 	# OTHER OS SPECIFIC CONFIG GOES HERE
+    echo ""
 fi
 
 if [[ ! -f ~/.vimruntime ]]; then
     echo "Installing awesome vim"
 	git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
 	sh ~/.vimruntime/install_awesome_vimrc.sh
+fi
+
+# move the home files to the home directory of the user.
+echo "Moving home dotfiles to home directory"
+cp -burv ./home/* ~/
+if [[ $? -eq 0 ]]; then
+    echo "SUCCESS"
+else
+    echo "FAILED"
+    exit 1;
 fi

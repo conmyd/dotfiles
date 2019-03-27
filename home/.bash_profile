@@ -2,7 +2,7 @@ if [[ -f ~/settings.sh ]]; then
 	source ~/settings.sh
 fi
 
-for bashfile in `ls -A ~/bash/`
+for bashfile in `ls --ignore '.*~' -A ~/bash/`
 do
 	source ~/bash/$bashfile
 done
@@ -30,8 +30,6 @@ if [[ "$OSTYPE" = "msys" ]]; then
 			fi
 		fi
 	}
-	# Make node available on the PATH
-	export PATH="$NODE_PATH:$PATH";
 fi
 
 echo "(OK) .bash_profile"
