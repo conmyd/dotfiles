@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Windows specific configuration 
+# Windows specific configuration
 if [[ "$OSTYPE" = 'msys' ]]; then
 	if [[ ! -f ./win_settings ]]; then
 		echo "No Settings file found for $OSTYPE"
@@ -10,7 +10,7 @@ if [[ "$OSTYPE" = 'msys' ]]; then
 	cp ./win_settings.sh ~/settings.sh
 	# Have the settings envs available for the rest of the script
 	source ./win_settings.sh
-	
+
 	if [[ ! -f pacman.list ]]; then
 		echo "no external packages installed."
 	else
@@ -21,16 +21,16 @@ if [[ "$OSTYPE" = 'msys' ]]; then
 		while read -r package
 		do
 			curl $PACMAN_URL/$package -O
-			tar -xvJf $package usr/bin/ 
+			tar -xvJf $package usr/bin/
 			echo "Extracted $package to ./tmp directory"
 		echo $package
 		done < ../pacman.list
 
 		if [[ -d usr/bin ]]; then
 			if [[ ! -d $DEV_BIN ]]; then
-				mkdir -p $DEV_BIN 
+				mkdir -p $DEV_BIN
 			fi
-			mv usr/bin/* $DEV_BIN 
+			mv usr/bin/* $DEV_BIN
 			if [[ $? -eq 0 ]]; then
 				echo "SUCCESS: Moved new packages to package bin"
 				export PATH=$DEV_BIN:$PATH
@@ -43,4 +43,8 @@ else
 	# OTHER OS SPECIFIC CONFIG GOES HERE
 fi
 
-
+if [[ ! -f ~/.vimruntime ]]; then
+    echo "Installing awesome vim"
+	git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
+	sh ~/.vimruntime/install_awesome_vimrc.sh
+fi
