@@ -1,27 +1,37 @@
+if [[ -f ~/settings.sh ]]; then
+	source ~/settings.sh
+fi
 
-function windir() {
-	echo $1 | sed -E 's;^/c/;C:\\;' | sed -e 's;/;\\;'
-}
+for bashfile in `ls -A ~/bash/`
+do
+	source ~/bash/$bashfile
+done
+
+
 
 if [[ "$OSTYPE" = "msys" ]]; then
-	NVM_ROOT='/c/dev/nvm'
-	NODE_PATH='/c/dev/nodejs'
+	# nvm command to give the basics of nvm that is available on linux.
+	# source nodejs versions need to be placed in the NVM_ROOT directory and then can be called with this.
+	# Since this makes use of symlinks and a specific NODE_PATH,
+	# it will persist with the installed choice between sessions.
 	nvm () {
-		echo "$1"
-		if [[ "$1" = "list" ]]; then
-			echo "list all in node_root"
+		command=$1
+		options=$2
+		if [[ "$command" = "list" ]]; then
+			echo "list all in nvm_root"
 			ls $NVM_ROOT
-		elif [[ "$1" -eq "use" ]]; then
-			if [[ -n "$2"  ]]; then
+		elif [[ "$command" -eq "use" ]]; then
+			if [[ -n "$options"  ]]; then
 				if [[ -d $NODE_PATH ]]; then
 					rm $NODE_PATH
 				fi
-				/c/dev/dotfiles/home/nvm4w.bat `windir $NODE_PATH` `windir $NVM_ROOT`\\$2 
-				echo "using node $2"
+				~/win_link.bat `windir $NODE_PATH` `windir $NVM_ROOT`\\$options
+				echo "using node $options"
 			fi
 		fi
 	}
+	# Make node available on the PATH
 	export PATH="$NODE_PATH:$PATH";
 fi
 
-echo "(OK) /c/Users/i059151/.bash_profile"
+echo "(OK) .bash_profile"

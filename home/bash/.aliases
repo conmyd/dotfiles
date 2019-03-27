@@ -1,2 +1,4 @@
 alias la='ls -la'
 alias l='ls'
+
+echo "(OK) .aliases"

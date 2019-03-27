@@ -26,3 +26,19 @@ function o() {
 function tre() {
 	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
+
+
+# Core systems dotfile
+# helper functions and aliases
+
+core_clean () {
+	find . -name "node_modules" -type d -exec rm -rf '{}' +
+        find ./cs-components -name "release" -type d  | grep -v node_modules | xargs rm -rf {}
+        find ./cs-node-modules/server-infrastructure -name "lib" -type d | grep -v node_modules | xargs rm -rf {}
+}
+
+function windir() {
+	echo $1 | sed -E 's;^/c/;C:\\;' | sed -e 's;/;\\;'
+}
+
+echo "(OK) .functions"
