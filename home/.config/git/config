@@ -1,0 +1,17 @@
+[user]
+	name = David Conmy
+	email = david.conmy@sap.com
+[core]
+	editor = vim
+	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	excludesfile = ~/.gitignore
+	symlinks = true
+	autocrlf = true
+	fscache = true
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = true
+[help]
+	format = man 
