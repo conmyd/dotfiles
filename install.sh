@@ -44,7 +44,7 @@ else
     echo ""
 fi
 
-if [[ ! -f ~/.vimruntime ]]; then
+if [[ ! -d ~/.vim_runtime ]]; then
     echo "Installing awesome vim"
 	git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
 	sh ~/.vimruntime/install_awesome_vimrc.sh
