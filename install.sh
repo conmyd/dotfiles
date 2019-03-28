@@ -44,6 +44,8 @@ if [[ "$OSTYPE" = 'msys' ]]; then
     # Kubectl variables
     kube_binary=kubectl.exe
     kube_arch=windows/amd64
+
+    helm_options='--no-sudo'
 else
 	# OTHER OS SPECIFIC CONFIG GOES HERE
     echo ""
@@ -70,6 +72,15 @@ if [[ ! -f $DEV_BIN/$kube_binary ]]; then
 else
     echo "kubectl already installed"
     # Include upgrade steps here for kubectl.
+fi
+
+# Install helm
+if [[ ! -f $DEV_BIN/helm ]]; then
+    export HELM_INSTALL_DIR=$DEV_BIN
+    ./install_helm.sh $helm_options
+else
+    echo "Helm is already installed"
+    # Include steps for an upgrade here?
 fi
 
 # move the home files to the home directory of the user.
