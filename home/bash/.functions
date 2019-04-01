@@ -1,3 +1,26 @@
+if [[ "$OSTYPE" = "msys" ]]; then
+	# nvm command to give the basics of nvm that is available on linux.
+	# source nodejs versions need to be placed in the NVM_ROOT directory and then can be called with this.
+	# Since this makes use of symlinks and a specific NODE_PATH,
+	# it will persist with the installed choice between sessions.
+	nvm () {
+		command=$1;
+		command2=$2;
+		if [[ "$command" = "list" ]]; then
+			echo "list all in nvm_root"
+			ls $NVM_ROOT
+		elif [[ "$command" = "use" ]]; then
+			if [[ -n "$command2"  ]]; then
+				if [[ -d $NODE_PATH ]]; then
+					rm $NODE_PATH
+				fi
+				~/win_link.bat `windir $NODE_PATH` `windir $NVM_ROOT`\\$command2
+				echo "using node $options"
+			fi
+		fi
+	}
+fi
+
 # Normalize `open` across Linux, macOS, and Windows.
 # This is needed to make the `o` function (see below) cross-platform.
 if [ ! $(uname -s) = 'Darwin' ]; then
@@ -27,18 +50,32 @@ function tre() {
 	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
 
+# Switch linux directory to a windows directory path.
+function windir() {
+	echo $1 | sed -E 's;^/c/;C:\\;' | sed -e 's;/;\\;'
+}
+
+function lindir() {
+	echo $1 | sed -e 's;^C:\/;\/c\/;' | sed -e 's;\\;\/;'
+}
 
 # Core systems dotfile
 # helper functions and aliases
 
 core_clean () {
-	find . -name "node_modules" -type d -exec rm -rf '{}' +
-        find ./cs-components -name "release" -type d  | grep -v node_modules | xargs rm -rf {}
-        find ./cs-node-modules/server-infrastructure -name "lib" -type d | grep -v node_modules | xargs rm -rf {}
-}
+	root_directory=$(lindir `git rev-parse --show-toplevel`)
+	if [[ -n "$root_directory" ]]; then
+		echo "-n returns true on $root_directory";
+		cd $root_directory
+	else 
+		echo "-n returns false on $root_directory";
+		exit 1;
+	fi
 
-function windir() {
-	echo $1 | sed -E 's;^/c/;C:\\;' | sed -e 's;/;\\;'
+	find . -name "node_modules" -type d -exec rm -rf '{}' +
+	find ./cs-components -name "release" -type d  | grep -v node_modules | xargs rm -rf {}
+	find . -name "package-lock.json" -type f -exec rm '{}' +
+	find ./cs-node-modules/server-infrastructure -name "lib" -type d | grep -v node_modules | xargs rm -rf {}
 }
 
 echo "(OK) .functions"

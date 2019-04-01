@@ -3,13 +3,27 @@
 alias la='ls -la'
 alias l='ls'
 
-# Coresystems Aliases
+## dotfile configuration aliases ##
+
+alias dotfiles='cd $DEV_ROOT/dotfiles'
+alias redot='cd $DEV_ROOT/dotfiles && ./install.sh'
+
+## Coresystems Aliases ##
+
+alias portal='cd $CORE_PORTAL'
+
 alias mdm='cd $CORE_MDM'
 alias mdm-front='cd $CORE_MDM/frontend'
 alias mdm-back='cd $CORE_MDM/backend'
-alias portal='cd $CORE_ROOT/portal'
 
-# Git Aliases
+alias dl='cd $CORE_DL'
+alias dl-front='cd $CORE_DL/frontend'
+alias dl-back='cd $CORE_DL/backend'
+
+## Git Aliases ##
+
+# rename git after me :3
+alias ejit='git $@'
 alias graph='git log --oneline --decorate --graph'
 
 echo "(OK) .aliases"

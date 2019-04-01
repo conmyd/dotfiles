@@ -11,6 +11,13 @@ if [[ "$OSTYPE" = 'msys' ]]; then
 	# Have the settings envs available for the rest of the script
 	source ./win_settings.sh
 
+	if [[ -f bash/.env ]]; then
+		source bash/.env
+		if [[ -d $NODE_PATH ]]; then
+			npm install --global --production windows-build-tools
+		fi
+	fi
+    cd programs
 	if [[ ! -f pacman.list ]]; then
 		echo "no external packages installed."
 	else
@@ -33,13 +40,14 @@ if [[ "$OSTYPE" = 'msys' ]]; then
             fi
 			mv usr/bin/* $DEV_BIN
 			if [[ $? -eq 0 ]]; then
-				echo "SUCCESS: Moved new packages to package bin"
+				echo "SUCCESS: Moved new packages to $DEV_BIN"
 			else
-				echo "FAILED to move new packages to the package bin"
+				echo "FAILED to move new packages to $DEV_BIN"
 			fi
 		fi
-        cd ~-
+        cd ..
 	fi
+    cd ..
 
     # Kubectl variables
     kube_binary=kubectl.exe
@@ -59,13 +67,14 @@ fi
 if [[ ! -d ~/.vim_runtime ]]; then
     echo "Installing awesome vim"
 	git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
-	sh ~/.vimruntime/install_awesome_vimrc.sh
 fi
+    echo "~/.vim_runtime already exists"
+	sh ~/.vimruntime/install_awesome_vimrc.sh
+
 
 # Install kubectl
 ## TODO: Add check for existance of variables before executing this code?
 if [[ ! -f $DEV_BIN/$kube_binary ]]; then
-
     echo "Downloading kubectl and placing it in $DEV_BIN"
     kubelatest=`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`
     curl -L https://storage.googleapis.com/kubernetes-release/release/$kubelatest/bin/$kube_arch/$kube_binary -o $DEV_BIN/$kube_binary
@@ -84,8 +93,8 @@ else
 fi
 
 # move the home files to the home directory of the user.
-echo "Moving home dotfiles to the user's home directory"
-cp -burv ./home/* ~/
+echo "Copying dotfiles to the user's home directory"
+rsync -rv ./home/ ~/
 if [[ $? -eq 0 ]]; then
     echo "SUCCESS: dotfiles moved to user's home directory"
 else
