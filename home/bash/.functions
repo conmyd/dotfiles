@@ -74,7 +74,7 @@ core_clean () {
 
 	find . -name "node_modules" -type d -exec rm -rf '{}' +
 	find ./cs-components -name "release" -type d  | grep -v node_modules | xargs rm -rf {}
-	find . -name "package-lock.json" -type f -exec rm '{}' +
+	#find . -name "package-lock.json" -type f -exec rm '{}' +
 	find ./cs-node-modules/server-infrastructure -name "lib" -type d | grep -v node_modules | xargs rm -rf {}
 }
 
