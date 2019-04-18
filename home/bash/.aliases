@@ -26,4 +26,7 @@ alias dl-back='cd $CORE_DL/backend'
 alias ejit='git $@'
 alias graph='git log --oneline --decorate --graph'
 
+# Update Kubectl configuration from converged cloud
+alias kupdate='kubernikusctl auth init --username I059151 --user-domain-name monsoon3 --project-id a0a468d09734431eb49d001dc2f79a3d --auth-url https://identity-3.eu-nl-1.cloud.sap/v3 --url https://kubernikus.eu-nl-1.cloud.sap --name hana-rug'
+
 echo "(OK) .aliases"
