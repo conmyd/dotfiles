@@ -20,6 +20,10 @@ alias dl='cd $CORE_DL'
 alias dl-front='cd $CORE_DL/frontend'
 alias dl-back='cd $CORE_DL/backend'
 
+## Personal Projects
+
+alias worktools='cd /c/dev/source/ui5/worktools'
+
 ## Git Aliases ##
 
 # rename git after me :3

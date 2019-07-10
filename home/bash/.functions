@@ -65,10 +65,8 @@ function lindir() {
 core_clean () {
 	root_directory=$(lindir `git rev-parse --show-toplevel`)
 	if [[ -n "$root_directory" ]]; then
-		echo "-n returns true on $root_directory";
 		cd $root_directory
-	else 
-		echo "-n returns false on $root_directory";
+	else
 		exit 1;
 	fi
 
